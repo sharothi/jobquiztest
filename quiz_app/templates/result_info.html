@@ -1,0 +1,114 @@
+
+
+{% extends 'base/base.html' %}
+
+{% block title %}Dashboard{% endblock title %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <!-- /Widgets -->
+    <div class="bg-info">
+        <h3 class="text-center">Students</h3>
+        <form method="get">
+            <div class="well">
+              <div class="row d-flex align-items-center justify-content-center">
+                <div class="form-group col-sm-4 col-md-2">
+                  {{ filter.form.class_name.label_tag }}
+                  {% render_field filter.form.class_name class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-2">
+                  {{ filter.form.username.label_tag }}
+                  {% render_field filter.form.username class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-2">
+                  {{ filter.form.roll_num.label_tag }}
+                  {% render_field filter.form.roll_num class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-2">
+                  {{ filter.form.email.label_tag }}
+                  {% render_field filter.form.email class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-2">
+                    {{ filter.form.num_of_correct_ans__gt.label_tag }}
+                    {% render_field filter.form.num_of_correct_ans__gt class="form-control" %}
+                  </div>
+
+                  <div class="form-group col-sm-4 col-md-2">
+                    {{ filter.form.num_of_correct_ans__lt.label_tag }}
+                    {% render_field filter.form.num_of_correct_ans__lt class="form-control" %}
+                  </div>
+                  <div class="form-group col-sm-4 col-md-2">
+                    {{ filter.form.exam_name.label_tag }}
+                    {% render_field filter.form.exam_name class="form-control" %}
+                  </div>
+
+              </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span> Search
+                  </button>
+
+            </div>
+        </form>
+        </div>
+    <div class="clearfix"></div>
+
+
+
+    
+    <div class="orders">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="box-title">Students List </h4>
+                    </div>
+                    <div class="card-body--">
+                        <div class="table-stats order-table ov-h">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th class="serial">#</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Class</th>
+                                        <th>Roll</th>
+                                        <th>Exam</th>
+                                        <th>Subject</th>
+                                        <th>Correct</th>
+                                        <th>Score</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if filter.qs %}
+                                    {% for obj in filter.qs %}
+
+                                    <tr>
+                                        <td class="serial">{{ forloop.counter }}</td>
+                                        <td>{{ obj.user_info.user_info.first_name }} {{ obj.user_info.user_info.last_name }}</td>
+                                        <td>{{ obj.user_info.user_info.email }}</td>
+                                        <td>{{ obj.user_info.class_name }}</td>
+                                        <td>{{ obj.user_info.roll_num }}</td>
+                                        <td>{{ obj.examination_info }}</td>
+                                        <td>{{ obj.examination_info.subject_name }}</td>
+                                        <td>{{ obj.num_of_correct_ans }}</td>
+                                        <td>{% widthratio obj.num_of_correct_ans 1 obj.examination_info.per_ques_marks %}</td>
+                                        <td>{{ obj.time_delta }}</td>
+
+                                    </tr>
+
+                                    {% endfor %}
+                                    {% else %}
+                                        <tr><td>No result info</td></tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div> <!-- /.table-stats -->
+                    </div>
+                </div> <!-- /.card -->
+            </div>  <!-- /.col-lg-8 -->
+
+            
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,108 @@
+
+{% extends 'base/base.html' %}
+
+{% block title %}Dashboard{% endblock title %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <!-- /Widgets -->
+    <div class="bg-info">
+        <h3 class="text-center">Students</h3>
+        <form method="get">
+            <div class="well">
+              <div class="row d-flex align-items-center justify-content-center">
+                <div class="form-group col-sm-4 col-md-2">
+                  {{ filter.form.institution_name.label_tag }}
+                  {% render_field filter.form.institution_name class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-2">
+                  {{ filter.form.class_name.label_tag }}
+                  {% render_field filter.form.class_name class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-2">
+                  {{ filter.form.roll_num.label_tag }}
+                  {% render_field filter.form.roll_num class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-2">
+                  {{ filter.form.email.label_tag }}
+                  {% render_field filter.form.email class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-2">
+                    {{ filter.form.username.label_tag }}
+                    {% render_field filter.form.username class="form-control" %}
+                  </div>
+
+              </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span> Search
+                  </button>
+
+            </div>
+        </form>
+        </div>
+    <div class="clearfix"></div>
+
+
+    {% if user.is_superuser %}
+    
+    <div class="orders">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="box-title">Students List </h4>
+                    </div>
+                    <div class="card-body--">
+                        <div class="table-stats order-table ov-h">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th class="serial">#</th>
+                                        <th>Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Email</th>
+                                        <th>Class</th>
+                                        <th>Roll</th>
+                                        <th>Institution</th>
+                                        <th>Approved</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if filter.qs %}
+                                    {% for obj in filter.qs %}
+
+                                    <tr>
+                                        <td class="serial">{{ forloop.counter }}</td>
+                                        <td>{{ obj.user_info.first_name }} {{ obj.user_info.last_name }}</td>
+                                        <td>{{ obj.phone_number }}</td>
+
+                                        <td>{{ obj.user_info.email }}</td>
+                                        <td>{{ obj.class_name }}</td>
+                                        <td>{{ obj.roll_num }}</td>
+                                        <td>{{ obj.institution_name.institution_name }}</td>
+                                        <td>{{ obj.approved }}</td>
+                                        <td>
+                                            <a class="btn btn-warning" role="button" href="{% url 'quiz_app:super_stud_activat' pk=obj.pk %}">Approve</a>
+                                            <a class='btn btn-info' role='button' href="#">Details</a>
+                                            <a class='btn btn-danger' role='button' href="{% url 'quiz_app:student_delete' pk=obj.pk %}" >delete</a>
+
+                                        </td>
+                                    </tr>
+
+                                    {% endfor %}
+                                    {% else %}
+                                        <tr><td>No Students</td></tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div> <!-- /.table-stats -->
+                    </div>
+                </div> <!-- /.card -->
+            </div>  <!-- /.col-lg-8 -->
+
+            
+        </div>
+    </div>
+    {% endif %}
+{% endblock content %}

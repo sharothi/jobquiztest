@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        ol .flex-container {
+            list-Style-position:inside;
+            
+        }
+
+        .flex-container {
+            width:100%;
+            display:flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .item {
+            width: 96%;
+            background-color: rgb(240, 240, 240);
+            justify-content: space-around;
+            margin-left: 4px;
+            margin-top: 4px;
+            padding-bottom: 8px;
+            border-radius: 8px;
+        }
+
+        .item>li {
+            margin-left: 10px;
+        }
+        .item>div {
+            text-align: right;
+        }
+        .item>div>a {
+            margin-right: 12px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row">
+          <div class="col-0 col-sm-2">
+          
+          </div>
+          <div class="col-12 col-sm-8 bg-white shadow rounded-3 p-5 mt-5">
+            
+            <h3 class="">Check Questions</h3>
+            <br />
+            <br />
+        
+            <ol>
+                <div class="flex-container">
+                    
+                            {% for question in questions %}
+                            <div class="item">
+                            
+                            <li>{{ question.title }}</li>
+                            <br />
+                            <ol type = 'a'>
+                                {% for option in question.option.all %}
+                                <li>{{ option }} &emsp; &emsp; &emsp; {% if option.is_correct %} status : {{ option.is_correct }} {% endif %}</li>
+                                {% endfor %}
+                            </ol>
+                            
+                            <div><a class="btn btn-danger" role="button" href="{% url 'quiz_app:question_delete' pk=question.pk %}">delete</a></Button></div> 
+                            
+                            </div>
+                        {% endfor %}
+                    
+                </div>
+            </ol>
+        
+        
+    <br />
+    <div><a class="btn btn-info" role="button" href="{% url 'quiz_app:teacher_dashboard' %}">Go Dashboard</a></Button></div>
+</div>  
+<div class="col-0 col-sm-2">
+          
+</div>
+</div>
+ 
+</div>
+
+
+</body>
+</html>

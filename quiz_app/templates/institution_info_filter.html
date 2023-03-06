@@ -1,0 +1,93 @@
+
+
+{% extends 'base/base.html' %}
+
+{% block title %}Dashboard{% endblock title %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <!-- /Widgets -->
+    <div class="bg-info">
+        <h3 class="text-center">Payments Info</h3>
+            <form method="get">
+                <div class="well">
+                  <div class="row d-flex align-items-center justify-content-center">
+                    <div class="form-group col-sm-4 col-md-2">
+                      {{ filter.form.institution_name.label_tag }}
+                      {% render_field filter.form.institution_name class="form-control" %}
+                    </div>
+                    <div class="form-group col-sm-4 col-md-2">
+                      {{ filter.form.by_agent.label_tag }}
+                      {% render_field filter.form.by_agent class="form-control" %}
+                    </div>
+                  </div>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                      </button>
+
+                </div>
+            </form>
+        
+        </div>
+    <div class="clearfix"></div>
+
+
+    {% if user.is_superuser %}
+    
+    <div class="orders">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="box-title">Payments Info list </h4>
+                    </div>
+                    <div class="card-body--">
+                        <div class="table-stats order-table ov-h">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th class="serial">#</th>
+                                        <th>Institution Name</th>
+                                        <th>Address</th>
+                                        <th>Agent</th>
+                                        <th>Created Date</th>
+                                        <th>Payment Status</th>
+                                        <th>Payment Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if filter.qs %}
+                                    {% for obj in filter.qs %}
+
+                                    <tr>
+                                        <td class="serial">{{ forloop.counter }}</td>
+                                        <td>{{ obj.institution_name }}</td>
+                                        <td>{{ obj.institution_address }}</td>
+                                        <td>{{ obj.by_agent }}</td>
+                                        <td>{{ obj.insti.all.last.created_date }}</td>
+                                        <td>{{ obj.insti.all.last.payment_status }}</td>
+                                        <td>{{ obj.insti.all.last.payment_date }}</td>
+                                        <td>
+                                            <a class='btn btn-danger' role='button' href="{% url 'quiz_app:make_payment' pk=obj.insti.all.last.pk %}" >Make payment</a>
+                                            <a class='btn btn-info' role='button' href="#">Details</a>
+
+                                        </td>
+                                    </tr>
+
+                                    {% endfor %}
+                                    {% else %}
+                                        <tr><td>No payment info</td></tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div> <!-- /.table-stats -->
+                    </div>
+                </div> <!-- /.card -->
+            </div>  <!-- /.col-lg-8 -->
+
+            
+        </div>
+    </div>
+    {% endif %}
+{% endblock content %}

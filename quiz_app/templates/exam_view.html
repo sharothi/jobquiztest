@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+</head>
+<body class="bg-light">
+    
+    <div class="container">
+        <div class="row">
+          <div class="col-0 col-sm-2">
+          
+          </div>
+          <div class="col-12 col-sm-8 bg-white shadow rounded-3 p-5 mt-5">
+
+     <br><br>
+     <form method="POST" action="" >
+      <h3>{{ activation_message|safe }}</h3>
+      {% csrf_token %}
+      <label for="phone_number" class="form-label">Bkash Number</label>
+      {{ form.phone_number }}
+      <br /> <br />
+      <input class="btn btn-info d-inline p-2 px-3 shadow" type="submit" value="Submit">
+     </form>
+
+
+</div>
+ 
+<div class="col-0 col-sm-2">
+    
+  </div>
+</div>
+</div>
+    
+   
+</body>
+</html>
